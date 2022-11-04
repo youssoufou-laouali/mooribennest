@@ -48,7 +48,7 @@ export class ArticlesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articlesService.remove(id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.articlesService.remove(req.user.userId, id);
   }
 }

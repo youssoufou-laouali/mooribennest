@@ -28,7 +28,7 @@ export class AuthService {
     return null;
   }
 
-  login(user: any) {
+  login(user: { name: string; id: string }) {
     const payload = { name: user.name, userId: user.id };
     return {
       access_token: this.jwtService.sign(payload),
@@ -56,36 +56,54 @@ export class AuthService {
       },
     });
 
-    const token = this.jwtService.sign({ id: user.id });
-    await this.mailService.sendUserConfirmation(
+    const token = this.jwtService.sign({ userId: user.id });
+    this.mailService.sendUserConfirmation(
       { email: user.email, name: user.name },
       token,
     );
 
-    return await this.login(user);
+    return {
+      status: 201,
+      message: "L'utilisateur est créer avec succéss",
+    };
   }
 
-  async confirm(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+  async confirm(token: string) {
+    try {
+      const payload: any = this.jwtService.decode(token);
+      const { userId, exp } = payload;
+      if (Date.now() >= exp * 1000) {
+        throw new HttpException('le token a expiré', 403);
+      }
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: userId ?? '',
+        },
+      });
 
-    if (!user) throw new HttpException('non authorisé', 403);
-    await this.prisma.user.update({
-      where: {
-        id,
-      },
-      data: {
-        verify: true,
-      },
-    });
-    return {
-      status: 200,
-      data: {
-        message: 'utilisateur confirmé',
-      },
-    };
+      if (!user) throw new HttpException("cet utilisateur n'existe pas ", 404);
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          verify: true,
+        },
+      });
+      const access_token = await this.login({
+        name: user.name,
+        id: user.id,
+      });
+      return {
+        status: 200,
+        message: 'votre adresse email est vérifié',
+        access_token,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Une erreur est survenue lors de votre rêquette',
+        500,
+      );
+    }
   }
 }

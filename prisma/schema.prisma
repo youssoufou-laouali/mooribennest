@@ -19,6 +19,7 @@ model User {
   password       String
   image          String?
   banner         String?
+  country        String?
   post           String?
   description    String?
   role           Role      @default(USER)

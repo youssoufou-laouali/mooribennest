@@ -1,4 +1,11 @@
-import { Controller, Post, Body, HttpException, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  Get,
+  Query,
+} from '@nestjs/common';
 import { CreateUserDto, LoginUserDto } from '../users/dto/create_user.dto';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
@@ -20,16 +27,9 @@ export class AuthController {
     return this.authService.register(data);
   }
 
-  @Get('auth/test')
-  async test() {
-    return {
-      test: '',
-    };
-  }
-
   @Public()
   @Post('auth/confirm')
-  async confirm(@Body() data) {
-    return this.authService.confirm(data?.id);
+  async confirm(@Query('token') token: string) {
+    return this.authService.confirm(token);
   }
 }

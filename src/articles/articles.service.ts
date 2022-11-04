@@ -71,7 +71,11 @@ export class ArticlesService {
     return article;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} article`;
+  async remove(userId: string, id: string) {
+    await this.validateAdmin(userId);
+
+    return await this.prisma.article.delete({
+      where: { id },
+    });
   }
 }

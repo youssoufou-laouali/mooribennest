@@ -9,12 +9,12 @@ export class MailService {
     user: { email: string; name: string },
     token: string,
   ) {
+    //TODO: Add the frontend email
     const url = `example.com/auth/confirm?token=${token}`;
 
-    await this.mailerService.sendMail({
+    this.mailerService.sendMail({
       to: user.email,
-      //   to: 'youssoufouissi@gmail.com',
-      subject: 'Bonjour ! Confirmer votre email',
+      subject: `Bonjour ${user.name}! Confirmer votre email`,
       template: './confirmation',
       context: {
         name: user.name,
