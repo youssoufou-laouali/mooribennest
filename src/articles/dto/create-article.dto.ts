@@ -18,6 +18,14 @@ export class CreateArticleDto {
   @IsOptional()
   content: string;
 
+  @IsString()
   @IsOptional()
-  catgories: Category[];
+  pdf: string;
+
+  @IsString()
+  @IsOptional()
+  pdfTitle: string;
+
+  @IsOptional()
+  categories: Category[];
 }

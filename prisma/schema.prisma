@@ -36,6 +36,8 @@ model Article {
   name        String?
   description String?
   image       String?
+  pdf         String?
+  pdfTitle    String?
   content     String?
   categories  Category[] @default([])
   user        User?      @relation(fields: [userId], references: [id])
@@ -71,4 +73,5 @@ enum Category {
   RAPPOR_ANNUEL
   ACTIVITE
   PROJET
+  AGROECOLOGIE
 }

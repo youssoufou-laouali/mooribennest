@@ -7,8 +7,8 @@ export class UsersController {
 
   @Get('me')
   async me(@Request() req) {
-    const user = await this.usersService.findOne(req.user);
-    const { password, ...rest } = user;
+    const user = await this.usersService.findOne(req.user?.userId);
+    const { password, sharedFilesIDs, updatedAt, createdAt, ...rest } = user;
     return rest;
   }
 

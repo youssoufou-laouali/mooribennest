@@ -16,17 +16,20 @@ export class ArticlesService {
         },
       },
     });
+
     if (!user) throw new HttpException('non authorisé', 401);
   }
   async create(userId: string, createArticleDto: CreateArticleDto) {
     await this.validateAdmin(userId);
     const article = await this.prisma.article.create({
       data: {
-        categories: createArticleDto.catgories,
+        categories: createArticleDto.categories,
         content: createArticleDto.content,
         description: createArticleDto.description,
         image: createArticleDto.image,
         name: createArticleDto.name,
+        pdf: createArticleDto.pdf,
+        pdfTitle: createArticleDto.pdfTitle,
         user: {
           connect: {
             id: userId,

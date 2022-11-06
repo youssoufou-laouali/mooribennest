@@ -51,7 +51,10 @@ export class AuthService {
         password: hash,
         banner: '',
         description: '',
-        image: '',
+        image: `https://ui-avatars.com/api/?name=${data.name.replace(
+          ' ',
+          '+',
+        )}`,
         name: data.name,
       },
     });
