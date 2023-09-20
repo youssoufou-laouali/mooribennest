@@ -60,7 +60,7 @@ export class AuthService {
     });
 
     const token = this.jwtService.sign({ userId: user.id });
-    this.mailService.sendUserConfirmation(
+    await this.mailService.sendUserConfirmation(
       { email: user.email, name: user.name },
       token,
     );
@@ -91,6 +91,7 @@ export class AuthService {
         },
         data: {
           verify: true,
+          active: true,
         },
       });
       const access_token = await this.login({

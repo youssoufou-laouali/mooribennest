@@ -10,12 +10,20 @@ import { join } from 'path';
       // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
       // or
       transport: {
+        // host: 'mail52.lwspanel.com',
+        // port: 465,
+        // secure: true,
+        // auth: {
+        //   user: 'contact@adamadamou.com',
+        //   pass: '@ZenabTataFara0',
+        // },
         host: 'smtp.gmail.com',
-        secure: false,
+        secure: true,
         auth: {
           user: 'youssoufoulaoualibaraou@gmail.com',
           pass: 'mckopigdgpbmtlqk',
         },
+        port: 465,
       },
       defaults: {
         from: '"No Reply" <noreply@mooriben.com>',

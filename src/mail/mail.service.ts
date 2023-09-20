@@ -10,15 +10,27 @@ export class MailService {
     token: string,
   ) {
     //TODO: Add the frontend email
-    const url = `example.com/auth/confirm?token=${token}`;
+    const url = `https://mooriben.vercel.app/auth/confirm?token=${token}`;
 
-    this.mailerService.sendMail({
+    await this.mailerService.sendMail({
       to: user.email,
       subject: `Bonjour ${user.name}! Confirmer votre email`,
       template: './confirmation',
       context: {
         name: user.name,
         url,
+      },
+    });
+  }
+
+  async sendFileShare(email: string, username: string, fileUrl: string) {
+    await this.mailerService.sendMail({
+      to: email,
+      subject: `${username} vient de partager un nouveau fichier`,
+      template: './promotional',
+      context: {
+        username,
+        fileUrl,
       },
     });
   }

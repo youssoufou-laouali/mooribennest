@@ -48,8 +48,8 @@ model Article {
 
 model File {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  url            String
-  name           String?
+  fichiers       Json
+  title          String?
   description    String?
   isPrivate      Boolean  @default(true)
   user           User?    @relation("owner", fields: [userId], references: [id])

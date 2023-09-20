@@ -38,4 +38,14 @@ export class UsersService {
       },
     });
   }
+
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany();
+    const data = users?.map((user) => {
+      const current = { ...user };
+      delete current.password;
+      return current;
+    });
+    return data;
+  }
 }

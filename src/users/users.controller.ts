@@ -12,6 +12,11 @@ export class UsersController {
     return rest;
   }
 
+  @Get()
+  async getAll() {
+    return await this.usersService.getAllUsers();
+  }
+
   @Post('active/:userId')
   async activeUser(@Query('userId') userId: string, @Request() req) {
     return await this.usersService.validateUser(req.user, userId);
